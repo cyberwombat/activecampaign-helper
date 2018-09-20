@@ -52,7 +52,9 @@ function ach_enqueue_scripts()
     wp_enqueue_script(
         'ach_handler',
         plugin_dir_url(__FILE__) . '/js/ach.js',
-        array( 'jquery' )
+        array( 'jquery' ),
+        false,
+        true
     );
 
     $ach_params = array(
@@ -73,8 +75,8 @@ function ach_ajax_callback()
         wp_send_json($_REQUEST['email']);
     }
 }
-add_action("wp_ajax_ach_track", "ach_ajax_callback");
-add_action("wp_ajax_nopriv_ach_track", "ach_ajax_callback");
+add_action('wp_ajax_ach_track', 'ach_ajax_callback');
+add_action('wp_ajax_nopriv_ach_track', 'ach_ajax_callback');
 
 // Store email in session
 function ach_store_email($email)
@@ -83,6 +85,8 @@ function ach_store_email($email)
         $_SESSION['ac_user_email'] = $email;
     }
 }
+// Create an action for this
+add_action('ach_store_email', 'ach_store_email', 10, 1);
 
 // Fetch session email
 function ach_get_email()
@@ -96,5 +100,3 @@ function ach_has_email()
     return !empty($_SESSION['ac_user_email']);
 }
 
-// Load custom hooks file
-require_once('hooks.php');
