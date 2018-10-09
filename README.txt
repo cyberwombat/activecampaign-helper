@@ -1,26 +1,24 @@
 === ActiveCampaign Tracking Helper ===
-Contributors: Enradia
 Tags: ActiveCampaign
 Version: 0.0.2
 Requires PHP: 5.0.0
 Requires at least: 3.0
 Tested up to: 4.9.6
-Contributor: cyberwombat
+Contributors: cyberwombat
 Stable tag: trunk
 License: MIT
 License URI: https://opensource.org/licenses/MIT
-Contributors: cyberwombat
 Donate link: https://www.paypal.com/donate/?token=SiMqCFR8nI8ciqqKR8EpxBhGrBTAt6ye5kevdwvLF5MGjGTAO_oN7o-vDlWvRiBrZopSw0&country.x=US&locale.x=US
 
 
 This plugin allows filtering of the AC tracking snippet to add an email address. The native AC snippet only checks for logged in users. This plugin allows using hooks (ex: WooCommerce checkout hook) to use an email address from a non logged in user as well as through JavaScript (ex: parsing a form).
 
-This plugin requires the presence of the ActiveCampaign plugin with tracking on.
+This plugin requires the presence of the ActiveCampaign (by AC) plugin with tracking on.
 
 
 == Installation ==
 
-Ensure the ActiveCampaign plugn from AC is installed and set up in order for this plugin to work.
+Ensure the ActiveCampaign plugin from AC is installed and set up in order for this plugin to work.
 
 
 == Usage ==

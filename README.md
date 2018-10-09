@@ -2,12 +2,12 @@
 
 This plugin allows filtering of the AC tracking snippet to add an email address. The native AC snippet only checks for logged in users. This plugin allows using hooks (ex: WooCommerce checkout hook) to use an email address from a non logged in user as well as through JavaScript (ex: parsing a form).
 
-This plugin requires the presence of the ActiveCampaign plugin with tracking on.
+This plugin requires the presence of the ActiveCampaign plugin (by AC) with tracking on.
 
 
 ## Installation 
 
-Ensure the ActiveCampaign plugn from AC is installed and set up in order for this plugin to work.
+Ensure the ActiveCampaign plugin from AC is installed and set up in order for this plugin to work.
 
 
 ## Usage 
