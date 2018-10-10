@@ -136,13 +136,14 @@ function ach_has_email()
  *
  * @param string $url - list POST action url
  * @param string $email - email to subscribe
- * @param array @params - array of params from hidden form fields (at least 'u' and 'f' are required - not sure about rest)
+ * @param string $form - form number (the u or f param in AC forms)
+ * @param array @params - array of params from hidden form fields 
  * @return
  */
-function ach_subscribe($url, $email, $params)
+function ach_subscribe($url, $email, $form, $params = array())
 {
     // Not sure if these are consistent across board - let's set them up but allow override
-    $defaults = array('c' => '0', 'm' => '0', 'act' => 'sub' , 'v' => '2');
+    $defaults = array('c' => '0', 'm' => '0', 'act' => 'sub' , 'v' => '2', 'u' => $form, 'f' => $form);
     $data = array_merge($defaults, $params, array('email' => $email));
 
     // use key 'http' even if you send the request to https://...
@@ -158,4 +159,4 @@ function ach_subscribe($url, $email, $params)
 }
 
 // Create an action for this
-add_action('ach_subscribe', 'ach_subscribe', 10, 3);
+add_action('ach_subscribe', 'ach_subscribe', 10, 4);
