@@ -4,7 +4,7 @@
  * Description: Provide easy subscribe options in checkout and registration and add email tracking ability. To get started active the plugin and edit your <a href="options-general.php?page=ach_settings">settings</a>.
  * Author: Enradia
  * Author URI: https://github.com/cyberwombat/activecampaign-helper
- * Version: 0.0.5
+ * Version: 0.0.6
  * Requires at least: 4.4
  * Tested up to: 4.9.6
  * WC requires at least: 3.0
@@ -114,7 +114,7 @@ if (!class_exists('AC_Helper')):
          
           add_action('init', function () {
               $GLOBALS['wp_scripts'] = new AC_Helper_Scripts;
-          });
+          }, 0);
       }
 
 
