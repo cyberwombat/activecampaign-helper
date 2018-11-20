@@ -92,6 +92,18 @@ jQuery(function($) {
 </div>
 ```
 
+## Debugging
+
+If the debug checkbox is checked or the wp config vars `WP_DEBUG` is true, events will be sent to the WordPress error log.
+You may need to enable the log by setting `WP_DEBUG_LOG` params in `wp-config.php`:
+
+```
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+```
+
+The log is located in the `wp-content` folder.
+
 ## Changelog
 
 #### 0.0.4
@@ -105,3 +117,7 @@ jQuery(function($) {
 #### 0.0.6
 
 - Change priority of WP_Scripts override
+
+#### 0.0.7
+
+- Misc cleanup

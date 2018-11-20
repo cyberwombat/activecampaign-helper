@@ -49,7 +49,7 @@ class AC_Helper_API
           'status['.$list.']]'  => 1
         );
         $res = $this->do_api_call('contact_sync', array_merge($params, $fields));
-        AC_Helper::log($email . ' subscribed to list '.$list .'- '.($res->success ? 'success!' : 'failed!'));
+        AC_Helper::log($email . ' subscribed to list '.$list .' - '.($res->success ? 'success!' : 'failed!'));
        
         return $res;
     }
@@ -91,7 +91,7 @@ class AC_Helper_API
 
 
         // Totally diff response for events then others... geez
-        return (object)array( 'success' =>  $body->success || $body->result_code, 'message' => $body->message, 'response' => $body  );
+        return (object)array( 'success' =>  isset($body->success) ? $body->success : $body->result_code, 'message' => isset($body->message) ? $body->message : '', 'response' => $body  );
     }
 
     /**

@@ -59,7 +59,7 @@ class AC_Helper_Services
      **/
     public function custom_registration_handler($user_id)
     {
-        if (! empty($_POST['subscribe'])) {
+        if (isset($_POST['subscribe']) && $_POST['subscribe']) {
           do_action('ach_subscribe', $_POST['email']);       
         }
          do_action('ach_store_email', $_POST['email']);
@@ -70,7 +70,7 @@ class AC_Helper_Services
      **/
     public function custom_checkout_handler($order_id)
     {
-        if ($_POST['subscribe']) {
+        if (isset($_POST['subscribe']) && $_POST['subscribe']) {
              do_action('ach_subscribe',$_POST['billing_email']);       
         }
          do_action('ach_store_email', $_POST['billing_email']);

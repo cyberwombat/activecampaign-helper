@@ -178,7 +178,7 @@ class AC_Helper_Settings
             'section' => 'advanced_section',
             'type' => 'checkbox',
             'options' => array(
-              'debug' => 'Log debug messages'
+              'debug' => 'Log debug messages in WP error log'
             ),
             'default' => array()
           ),
