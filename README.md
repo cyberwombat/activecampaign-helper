@@ -27,13 +27,33 @@ If the email is available through an action hook we can then call the `ach_store
 
     // Sample function - here we use the login email (AC does this already but its a clear example)
     function sample_track_login($login, $user) {
-      do_action('ach_store_email', $user->user_email)
+      do_action('ach_store_email', $user->user_email);
     }
     add_action('wp_login', 'sample_track_login',  10, 2);
 
 ### ach_subscribe
 
 Subscribe an email to an AC list (as defined by list ID in settings).
+
+    do_action('ach_subscribe', 'foo@example.org');
+
+Here's an example on capturing the email field from a Contact Form 7 form and sending it to an AC list.
+
+    // After send hook available from CF7
+    add_action('wpcf7_mail_sent', function ($cf7) {
+      $submission = WPCF7_Submission::get_instance();
+      if ($submission) {
+        $data = $submission->get_posted_data();
+
+        // _wpcf7 is the contact form ID - in this case we want to match for form ID 12345
+        if ($data['_wpcf7'] ==  '12345') {
+            // This would depend on the name of the field. In this case the CF7 email field is called "your-email"
+            $email = $data['your-email'];
+
+            // Call the AC helper action hook
+            do_action('ach_subscribe', $email);
+        }
+    }
 
 ## Using the JavaScript functions
 
@@ -121,3 +141,7 @@ The log is located in the `wp-content` folder.
 #### 0.0.7
 
 - Misc cleanup
+
+#### 0.0.8
+
+- Add example

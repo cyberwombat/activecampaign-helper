@@ -103,7 +103,7 @@ class AC_Helper_Services
     public function custom_woo_registration_form_handler()
     {
         ?>
-        <p class="form-row form-row-wide">
+        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
            <label class="ach__label woocommerce-form__label woocommerce-form__label-for-checkbox ">
               <input class="ach__input woocommerce-form__input woocommerce-form__input-checkbox" name="subscribe" type="checkbox" id="subscribe" value="forever"> <span> <?php _e(get_option('ac_helper_subscribe_label'), 'ac-helper') ?></span>
             </label>
