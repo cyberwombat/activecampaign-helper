@@ -1,7 +1,7 @@
 /*  globals jQuery, ach_params */
 
 ;(function(acs, $) {
-  // Seleton function to send an email back to the AC helper
+  // Skeleton function to send an email back to the AC helper
   acs.storeEmail = function(email, cb = function() {}) {
     // eslint-disable-line no-unused-vars
     $.ajax({
@@ -97,5 +97,3 @@
 if (ach_params.site_tracking || /(^|; )ach_enable_tracking=([^;]+)/.test(document.cookie)) {
   window.acs.loadTracker()
 }
-
-// if (window.ach_email) storeEmail(window.ach_email)

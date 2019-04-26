@@ -30,8 +30,8 @@ class AC_Helper_Track
 
     public function ach_track($data, $handle, $object_name)
     {
-        //&& !isset($data['user_email'])
         if ('site_tracking' == $handle && 'php_data' == $object_name && AC_Helper_Handler::ach_has_email()) {
+            AC_Helper::log('Native AC intercepted');
             $data['user_email'] = AC_Helper_Handler::ach_get_email();
         }
         return $data;

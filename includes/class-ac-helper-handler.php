@@ -25,7 +25,7 @@ class AC_Helper_Handler
         add_action('wp_ajax_nopriv_ach_email', __CLASS__ . '::ach_ajax_callback_email');
         add_action('ach_subscribe', __CLASS__ . '::ach_subscribe', 10, 2);
         add_action('ach_store_email', __CLASS__ . '::ach_store_email', 10, 1);
-        add_action('wp_login', __CLASS__ . '::ach_init_email');
+        add_action('wp_login', __CLASS__ . '::ach_init_email', 10, 2);
     }
 
     /**
@@ -77,7 +77,7 @@ class AC_Helper_Handler
      */
     public static function ach_ajax_callback_track()
     {
-      if (wp_verify_nonce($_REQUEST['security'], 'ach_track')) {
+        if (wp_verify_nonce($_REQUEST['security'], 'ach_track')) {
             $track = $_REQUEST['tracking'] == 'false'  ? false : true;
             self::ach_set_tracking($track);
             return wp_send_json(array( 'success' => true, 'tracking' => $track ? 'on' : 'off'));
@@ -89,16 +89,9 @@ class AC_Helper_Handler
     /**
      * Initialie with logged in user if avail
      */
-    public static function ach_init_email()
+    public static function ach_init_email($user_login, $user)
     {
-        // Don't overwrite
-        if (!self::ach_has_email()) {
-            $current_user = wp_get_current_user();
-            if (isset($current_user->data->user_email)) {
-                return self::ach_store_email($current_user->data->user_email);
-            }
-        }
-        return false;
+        return self::ach_store_email($user->user_email);
     }
 
     /**
@@ -112,7 +105,7 @@ class AC_Helper_Handler
     public static function ach_send_event($name, $value, $email)
     {
         $api = new AC_Helper_API();
-         return $api->send_event($name, $value, $email);
+        return $api->send_event($name, $value, $email);
     }
     
     /**
@@ -125,18 +118,24 @@ class AC_Helper_Handler
     public static function ach_subscribe($email, $fields = array())
     {
         $api = new AC_Helper_API();
-         return $api->subscribe_to_list($email, $fields);
+        return $api->subscribe_to_list($email, $fields);
     }
 
     /**
-     * Store email in session
+     * Store email in session and optionally cookie
      *
      * @param string $email - email to store
      */
     public static function ach_store_email($email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            AC_Helper::log('Storing email in session');
             $_SESSION['ach_email'] = $email;
+
+            if (self::ach_get_tracking()) {
+                AC_Helper::log('Storing email in cookie');
+                setcookie('ach_email', $email, time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN);
+            }
             return true;
         }
         return false;
@@ -149,7 +148,18 @@ class AC_Helper_Handler
      */
     public static function ach_get_email()
     {
-        return self::ach_has_email() ? $_SESSION['ach_email'] : null;
+        $email = null;
+     
+        if (!empty($_COOKIE['ach_email'])) {
+            $_SESSION['ach_email'] = $_COOKIE['ach_email'];
+        }
+
+        if (!empty($_SESSION['ach_email'])) {
+            $email = $_SESSION['ach_email'];
+        }
+
+        AC_Helper::log('Fetching email in session: '.($email ? $email : 'no email found'));
+        return $email;
     }
 
     /**
@@ -159,7 +169,9 @@ class AC_Helper_Handler
      */
     public static function ach_has_email()
     {
-        return !empty($_SESSION['ach_email']);
+        $is = !empty($_SESSION['ach_email']) || !empty($_COOKIE['ach_email']);
+        AC_Helper::log('Check if email in session: '.($is ? 'yes' : 'no'));
+        return $is;
     }
 
     /**
@@ -179,7 +191,7 @@ class AC_Helper_Handler
      */
     public static function ach_get_tracking()
     {
-        return empty($_SESSION['ach_tracking']) ? false : $_SESSION['ach_tracking'];
+        return empty($_SESSION['ach_tracking']) ? get_option("ac_helper_tracking")[0] : $_SESSION['ach_tracking'];
     }
 }
 

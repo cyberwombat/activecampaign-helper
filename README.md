@@ -4,7 +4,9 @@ This plugin extends the functionality of the native ActiveCampaign plugin (as wr
 
 ### Site tracking
 
-The native WP ActiveCampaign plugin only tracks emails for logged in user. This plugin provides hooks add the email from a variety of sources such as through JavaScript or WordPress action hooks. In addition it provides methods to store a user preference as far as tracking is concerned for privacy or GDPR. The plugin can either insert its own tracking code (native AC plugin not required) or make use of the native AC plugin
+The native WP ActiveCampaign plugin only tracks emails for logged in user. This plugin provides hooks add the email from a variety of sources such as through JavaScript or WordPress action hooks. In addition it provides methods to store a user preference as far as tracking is concerned for privacy or GDPR. The plugin can either insert its own tracking code (native AC plugin not required) or make use of the native AC plugin.
+
+Note: Do not add the AC tracking snippet by hand (such as in the theme) as this plugin cannot intercept it to inject the email address. 
 
 ### Subscription
 
@@ -122,7 +124,24 @@ define('WP_DEBUG', true);
 define('WP_DEBUG_LOG', true);
 ```
 
-The log is located in the `wp-content` folder.
+
+Note: The log is usually located in the `wp-content` folder.
+
+## Todo
+
+Integrate ACs new tracking code. 
+
+```
+<script type="text/javascript">
+    (function(e,t,o,n,p,r,i){e.prismGlobalObjectAlias=n;e.pgo=e.pgo||function(){(e.pgo.q=e.pgo.q||[]).push(arguments)};e.pgo.l=(new Date).getTime();r=t.createElement("script");r.src=o;r.async=true;i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)})(window,document,"https://prism.app-us1.com/prism.js","pgo");
+
+    pgo('setAccount', 'xxxx');
+    pgo('setTrackByDefault', true);
+    pgo('setEmail', 'Email_Address_Goes_Here');
+    pgo('process');
+</script>
+```
+
 
 ## Changelog
 
@@ -145,3 +164,9 @@ The log is located in the `wp-content` folder.
 #### 0.0.8
 
 - Add example
+
+#### 0.0.9
+
+- Add PHP cookie storage
+- Update on login function
+
