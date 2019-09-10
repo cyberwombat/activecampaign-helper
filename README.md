@@ -39,6 +39,8 @@ Subscribe an email to an AC list (as defined by list ID in settings).
 
     do_action('ach_subscribe', 'foo@example.org');
 
+You can obtain the list ID from AC by hovering your cursor above the list title in the list admin - the url will contain a `listid` parameter.
+
 Here's an example on capturing the email field from a Contact Form 7 form and sending it to an AC list.
 
     // After send hook available from CF7
@@ -169,4 +171,12 @@ Integrate ACs new tracking code.
 
 - Add PHP cookie storage
 - Update on login function
+
+#### 0.0.10
+
+- Update tracking code
+
+#### 0.0.11
+
+- Change Woo checkout placement
 

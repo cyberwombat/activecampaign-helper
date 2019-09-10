@@ -66,16 +66,50 @@
       }
     })
   }
-  // AC tracking
+
+  // Preset params for tracker
+  acs.setIdentity = function() {
+
+  }
+
+  // Set tracker object
   acs.loadTracker = function() {
-    log('Tracking is on from ' + (ach_params.site_tracking ? 'settings' : 'cookie'))
-    log(ach_params.user_email ? 'Set ' + ach_params.user_email + ' as email in tracking' : 'No email set')
+    // Create base pgo object if not yet created
+    window.prismGlobalObjectAlias = 'pgo'
+    window.pgo = window.pgo || function() {
+      (window.pgo.q = window.pgo.q || []).push(arguments)
+    }
+
+    if (ach_params.site_tracking || /(^|; )ach_enable_tracking=([^;]+)/.test(document.cookie)) {
+      acs.loadTrackerCode()
+    }
+
+    // Load basic params
+    window.pgo.l = (new Date()).getTime()
+    window.pgo('setAccount', ach_params.trackid)
+    window.pgo('setTrackByDefault', true)
+    if (ach_params.user_email) {
+      log(ach_params.user_email ? 'Set ' + ach_params.user_email + ' as email in tracking' : 'No email set')
+
+      window.pgo('setEmail', ach_params.user_email)
+    }
+
+    window.pgo('process')
+  }
+
+  // AC tracking when no native AC plugin is present
+  acs.loadTrackerCode = function() {
+    log('Loading custom tracker from ' + (ach_params.site_tracking ? 'settings' : 'cookie'))
+
+    // Set cookie pref
     var expiration = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30)
     document.cookie = 'ach_enable_tracking=1; expires= ' + expiration + '; path=/'
+
+    // Load script
     var t = document.createElement('script')
     t.async = true
     t.type = 'text/javascript'
-    t.src = '//trackcmp.net/visit?actid=' + ach_params.trackid + '&e=' + encodeURIComponent(ach_params.user_email) + '&r=' + encodeURIComponent(document.referrer) + '&u=' + encodeURIComponent(window.location.href)
+    t.src = 'https://prism.app-us1.com/prism.js'
     var ts = document.getElementsByTagName('script')
     if (ts.length) {
       ts[0].parentNode.appendChild(t)
@@ -85,7 +119,7 @@
     }
   }
 
-  // Debugz
+  // Debug
   function log() {
     if (!ach_params.debug) return
     try {
@@ -94,6 +128,4 @@
   }
 })((window.acs = window.acs || {}), jQuery)
 
-if (ach_params.site_tracking || /(^|; )ach_enable_tracking=([^;]+)/.test(document.cookie)) {
-  window.acs.loadTracker()
-}
+window.acs.loadTracker()

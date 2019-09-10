@@ -22,7 +22,8 @@ class AC_Helper_Services
         add_action('woocommerce_checkout_update_order_meta', array($this, 'custom_checkout_handler'));
         if (in_array('do_woo_checkout', $options)) {
             add_action( 'wp_head', array($this, 'load_styles' ), 0 );
-            add_filter('woocommerce_checkout_fields', array($this, 'custom_override_checkout_fields'));
+            //add_filter('woocommerce_checkout_fields', array($this, 'custom_override_checkout_fields'));
+            add_action('woocommerce_checkout_before_terms_and_conditions', array($this, 'custom_woo_registration_form_handler'));
         }
         if (in_array('do_woo_register', $options)) {
             add_action('woocommerce_register_form', array($this, 'custom_woo_registration_form_handler'));
@@ -44,7 +45,7 @@ class AC_Helper_Services
      */
     public function custom_registration_form_handler()
     {
-        // Modify register form to have a suscribe to newsletter checkbox?>
+        // Modify register form to have a subscribe to newsletter checkbox?>
         <p>
             <label for="subscribe" class="ach__label">
                 <input type="checkbox" name="subscribe" id="subscribe" class="input-checkbox ach__input" checked />

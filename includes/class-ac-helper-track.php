@@ -65,7 +65,7 @@ class AC_Helper_Track
         $disable = false;
         if (class_exists('ActiveCampaignWordPress')) {
             $ac = get_option("settings_activecampaign");
-            $disable = $ac['site_tracking'] == 1;
+            $disable = @$ac['site_tracking'] == 1;
         }
 
         if ($disable) {
