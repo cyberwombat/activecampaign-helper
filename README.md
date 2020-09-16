@@ -72,6 +72,17 @@ function change_list_id( $preset_list_id ) {
 add_filter( 'ach_list', 'change_list_id', 10, 1 );
 ```
 
+# ach_tags
+
+This filter can be used to add tags before subscribe. Create a custom function to return an array of tags such as:
+
+```
+function add_tags_id() {
+    return array('foo', 'bar');
+}
+add_filter( 'ach_tags', 'add_tags', 10, 0 );
+```
+
 ## Using the JavaScript functions
 
 The plugin offers 3 convenience functions.
@@ -194,3 +205,7 @@ Integrate ACs new tracking code.
 #### 0.0.12
 
 -   Add ach_list filter to dynamicallyt modify list ID before subscribe
+
+#### 0.0.13
+
+-   Add ach_tags filter to dynamicallyt add tags before subscribe

@@ -40,18 +40,20 @@ class AC_Helper_API
         $list = get_option('ac_helper_list_id');
 
         $list = apply_filters('ach_list', $list);
+        $tags = apply_filters('ach_tags');
 
         if (!$list || !is_numeric($list)) {
             AC_Helper::log('Subscription failed - No valid AC list ID provided');
             return array('success' => false, 'error' => 'No valid AC list ID provided');
         }
 
-
         $params = array(
           'email' => $email,
-          'p['.$list.']'  => $list,
-          'status['.$list.']]'  => 1
+          'p['.$list.']' => $list,
+          'status['.$list.']]' => 1,
+          'tags' => is_array($tags) ? implode(',', $tags) : ''
         );
+
         $res = $this->do_api_call('contact_sync', array_merge($params, $fields));
         AC_Helper::log($email . ' subscribed to list '.$list .' - '.($res->success ? 'success!' : 'failed! ' .$res->response->result_message));
 
