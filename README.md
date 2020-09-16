@@ -69,7 +69,7 @@ This filter can be used to modify the list ID before subscribe. Create a custom 
 function change_list_id( $preset_list_id ) {
     return $new_id;
 }
-add_filter( 'ach_list', 'change_list_id', 10, 3 );
+add_filter( 'ach_list', 'change_list_id', 10, 1 );
 ```
 
 ## Using the JavaScript functions
