@@ -6,16 +6,16 @@ This plugin extends the functionality of the native ActiveCampaign plugin (as wr
 
 The native WP ActiveCampaign plugin only tracks emails for logged in user. This plugin provides hooks add the email from a variety of sources such as through JavaScript or WordPress action hooks. In addition it provides methods to store a user preference as far as tracking is concerned for privacy or GDPR. The plugin can either insert its own tracking code (native AC plugin not required) or make use of the native AC plugin.
 
-Note: Do not add the AC tracking snippet by hand (such as in the theme) as this plugin cannot intercept it to inject the email address. 
+Note: Do not add the AC tracking snippet by hand (such as in the theme) as this plugin cannot intercept it to inject the email address.
 
 ### Subscription
 
 This plugin optionally adds a subscribe to newsletter checkbox for:
 
-- WooCommerce checkout
-- WooCommerce registration
-- WordPress registration
-  ... more to come
+-   WooCommerce checkout
+-   WooCommerce registration
+-   WordPress registration
+    ... more to come
 
 ### Event tracking
 
@@ -59,6 +59,19 @@ Here's an example on capturing the email field from a Contact Form 7 form and se
         }
     }
 
+## Available filters
+
+### ach_list
+
+This filter can be used to modify the list ID before subscribe. Create a custom function such as:
+
+```
+function change_list_id( $preset_list_id ) {
+    return $new_id;
+}
+add_filter( 'ach_list', 'change_list_id', 10, 3 );
+```
+
 ## Using the JavaScript functions
 
 The plugin offers 3 convenience functions.
@@ -69,8 +82,8 @@ This function accepts an email address and will add it to the AC tracking snippe
 
 It accepts 2 parameters:
 
-- email - an email to add to tracking
-- callback - optional callback to inspect response
+-   email - an email to add to tracking
+-   callback - optional callback to inspect response
 
 ### acs.setTracking
 
@@ -126,12 +139,11 @@ define('WP_DEBUG', true);
 define('WP_DEBUG_LOG', true);
 ```
 
-
 Note: The log is usually located in the `wp-content` folder.
 
 ## Todo
 
-Integrate ACs new tracking code. 
+Integrate ACs new tracking code.
 
 ```
 <script type="text/javascript">
@@ -144,39 +156,41 @@ Integrate ACs new tracking code.
 </script>
 ```
 
-
 ## Changelog
 
 #### 0.0.4
 
-- Initial release from merge
+-   Initial release from merge
 
 #### 0.0.5
 
-- Bug fix
+-   Bug fix
 
 #### 0.0.6
 
-- Change priority of WP_Scripts override
+-   Change priority of WP_Scripts override
 
 #### 0.0.7
 
-- Misc cleanup
+-   Misc cleanup
 
 #### 0.0.8
 
-- Add example
+-   Add example
 
 #### 0.0.9
 
-- Add PHP cookie storage
-- Update on login function
+-   Add PHP cookie storage
+-   Update on login function
 
 #### 0.0.10
 
-- Update tracking code
+-   Update tracking code
 
 #### 0.0.11
 
-- Change Woo checkout placement
+-   Change Woo checkout placement
 
+#### 0.0.12
+
+-   Add ach_list filter to dynamicallyt modify list ID before subscribe

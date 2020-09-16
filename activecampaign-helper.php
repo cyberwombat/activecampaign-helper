@@ -4,7 +4,7 @@
  * Description: Provide easy subscribe options in checkout and registration and add email tracking ability. To get started active the plugin and edit your <a href="options-general.php?page=ach_settings">settings</a>.
  * Author: Enradia
  * Author URI: https://github.com/cyberwombat/activecampaign-helper
- * Version: 0.0.11
+ * Version: 0.0.12
  * Requires at least: 4.4
  * Tested up to: 4.9.6
  * WC requires at least: 3.0
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 /**
  * Required minimums and constants
  */
-define('AC_HELPER_VERSION', '0.0.10');
+define('AC_HELPER_VERSION', '0.0.12');
 define('AC_HELPER_MIN_PHP_VER', '5.6.0');
 define('AC_HELPER_MIN_WC_VER', '3.0.0');
 define('AC_HELPER_MAIN_FILE', __FILE__);
@@ -87,7 +87,7 @@ if (!class_exists('AC_Helper')):
           add_action('plugins_loaded', array($this, 'init'));
       }
 
-      
+
       /**
        * Initialize
        */
@@ -99,7 +99,7 @@ if (!class_exists('AC_Helper')):
               return;
           }
 
-        
+
           include_once dirname(__FILE__) . '/includes/class-ac-helper-handler.php';
           include_once dirname(__FILE__) . '/includes/class-ac-helper-services.php';
           include_once dirname(__FILE__) . '/includes/class-ac-helper-scripts.php';
@@ -109,9 +109,9 @@ if (!class_exists('AC_Helper')):
           if (is_admin()) {
               include_once dirname(__FILE__) . '/includes/class-ac-helper-settings.php';
           }
-       
+
           load_plugin_textdomain('ac-helper', false, plugin_basename(dirname(__FILE__)) . '/languages');
-         
+
           add_action('init', function () {
               $GLOBALS['wp_scripts'] = new AC_Helper_Scripts;
           }, 0);
@@ -150,7 +150,7 @@ if (!class_exists('AC_Helper')):
 
           if (!$track_id && !(isset($_GET['page'], $_GET['section']) && 'wc-settings' === $_GET['page'] && 'ac_helper' === $_GET['section'])) {
               $api_key = get_option('ac_helper_api_key');
-                 
+
               if ($api_key) {
                   $ac = new AC_Helper_API;
                   $id = $ac->fetch_track_id();
@@ -204,7 +204,7 @@ if (!class_exists('AC_Helper')):
               return sprintf($message, AC_HELPER_MIN_PHP_VER, phpversion());
           }
 
-          
+
 
           return false;
       }
@@ -244,7 +244,7 @@ if (!class_exists('AC_Helper')):
           }
       }
 
-      
+
       /**
        * What rolls down stairs
        * alone or in pairs,

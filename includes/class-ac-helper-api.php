@@ -3,8 +3,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if( !class_exists( 'WP_Http' ) )
-    include_once( ABSPATH . WPINC. '/class-http.php' );
+if (!class_exists('WP_Http')) {
+    include_once(ABSPATH . WPINC. '/class-http.php');
+}
 
 
 /**
@@ -14,14 +15,15 @@ if( !class_exists( 'WP_Http' ) )
  *
  */
 class AC_Helper_API
-{ 
+{
 
     /**
      *Initialize
      */
     public function init()
     {
-        add_action('ach_subscribe', array($this,'ach_subscribe'), 10, 4);;
+        add_action('ach_subscribe', array($this,'ach_subscribe'), 10, 4);
+        ;
     }
 
     /**
@@ -36,10 +38,12 @@ class AC_Helper_API
     public function subscribe_to_list($email, $fields = array())
     {
         $list = get_option('ac_helper_list_id');
-        
-        if(!$list || !is_numeric($list)) {
-          AC_Helper::log('Subscription failed - No valid AC list ID provided');
-          return array('success' => false, 'error' => 'No valid AC list ID provided');
+
+        $list = apply_filters('ach_list', $list);
+
+        if (!$list || !is_numeric($list)) {
+            AC_Helper::log('Subscription failed - No valid AC list ID provided');
+            return array('success' => false, 'error' => 'No valid AC list ID provided');
         }
 
 
@@ -64,12 +68,12 @@ class AC_Helper_API
      */
     protected function do_api_call($action, $post = array())
     {
-        $url = $action === 'track_event_add' 
-          ? "https://trackcmp.net/event?"  
+        $url = $action === 'track_event_add'
+          ? "https://trackcmp.net/event?"
           : get_option('ac_helper_api_url') . '/admin/api.php?';
 
         $key = get_option('ac_helper_api_key');
-        
+
         $params = array(
           'api_key'      => $key,
           'api_action'   => $action,
@@ -79,12 +83,12 @@ class AC_Helper_API
 
 
         $request = new WP_Http;
-        $result = $request->request( $api, array( 'method' => 'POST', 'body' => $post) );
+        $result = $request->request($api, array( 'method' => 'POST', 'body' => $post));
 
-       
 
-        if($result instanceof WP_Error) {
-          return array('success' => false, 'error' => json_encode($result->errors));
+
+        if ($result instanceof WP_Error) {
+            return array('success' => false, 'error' => json_encode($result->errors));
         }
 
         $body = json_decode($result['body']);
@@ -114,11 +118,11 @@ class AC_Helper_API
      * @return boolean success
      */
     public function send_event($name, $value, $email)
-    {        
+    {
         $res = $this->do_api_call('track_event_add', array(
-          'key' => get_option('ac_helper_event_key'),   
+          'key' => get_option('ac_helper_event_key'),
           'actid' => get_option('ac_helper_track_id'),
-          'event' => $name, 
+          'event' => $name,
           'eventdata' => $value,
           'visit' => array('email' => $email)
         ));
@@ -127,5 +131,3 @@ class AC_Helper_API
         return $res;
     }
 }
-
-

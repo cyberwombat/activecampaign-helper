@@ -14,14 +14,14 @@ class AC_Helper_Services
     public function __construct()
     {
         $options = (array)get_option("ac_helper_locations");
-        
+
         if (in_array('do_wp_register', $options)) {
             add_action('register_form', array($this, 'custom_registration_form_handler'));
         }
         add_action('user_register', array($this, 'custom_registration_handler'));
         add_action('woocommerce_checkout_update_order_meta', array($this, 'custom_checkout_handler'));
         if (in_array('do_woo_checkout', $options)) {
-            add_action( 'wp_head', array($this, 'load_styles' ), 0 );
+            add_action('wp_head', array($this, 'load_styles' ), 0);
             //add_filter('woocommerce_checkout_fields', array($this, 'custom_override_checkout_fields'));
             add_action('woocommerce_checkout_before_terms_and_conditions', array($this, 'custom_woo_registration_form_handler'));
         }
@@ -37,7 +37,7 @@ class AC_Helper_Services
     public function load_styles()
     {
         // Remove the (optional) in Woo checkout (why is a checkbox marked optional is beyong me)
-        echo "<style>.ach__label .optional { display:none; }</style>";        
+        echo "<style>.ach__label .optional { display:none; }</style>";
     }
 
     /**
@@ -46,13 +46,14 @@ class AC_Helper_Services
     public function custom_registration_form_handler()
     {
         // Modify register form to have a subscribe to newsletter checkbox?>
-        <p>
-            <label for="subscribe" class="ach__label">
-                <input type="checkbox" name="subscribe" id="subscribe" class="input-checkbox ach__input" checked />
-                <?php _e(get_option('ac_helper_subscribe_label'), 'ac-helper') ?>
-              </label><br><br>
-        </p>
-        <?php
+<p>
+  <label for="subscribe" class="ach__label">
+    <input type="checkbox" name="subscribe" id="subscribe"
+      class="input-checkbox ach__input" checked />
+    <?php _e(get_option('ac_helper_subscribe_label'), 'ac-helper') ?>
+  </label><br><br>
+</p>
+<?php
     }
 
     /**
@@ -61,9 +62,9 @@ class AC_Helper_Services
     public function custom_registration_handler($user_id)
     {
         if (isset($_POST['subscribe']) && $_POST['subscribe']) {
-          do_action('ach_subscribe', $_POST['email']);       
+            do_action('ach_subscribe', $_POST['email']);
         }
-         do_action('ach_store_email', $_POST['email']);
+        do_action('ach_store_email', $_POST['email']);
     }
 
     /**
@@ -72,9 +73,9 @@ class AC_Helper_Services
     public function custom_checkout_handler($order_id)
     {
         if (isset($_POST['subscribe']) && $_POST['subscribe']) {
-             do_action('ach_subscribe',$_POST['billing_email']);       
+            do_action('ach_subscribe', $_POST['billing_email']);
         }
-         do_action('ach_store_email', $_POST['billing_email']);
+        do_action('ach_store_email', $_POST['billing_email']);
     }
 
     /**
@@ -104,12 +105,17 @@ class AC_Helper_Services
     public function custom_woo_registration_form_handler()
     {
         ?>
-        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-           <label class="ach__label woocommerce-form__label woocommerce-form__label-for-checkbox ">
-              <input class="ach__input woocommerce-form__input woocommerce-form__input-checkbox" name="subscribe" type="checkbox" id="subscribe" value="forever"> <span> <?php _e(get_option('ac_helper_subscribe_label'), 'ac-helper') ?></span>
-            </label>
-        </p>
-        <?php
+<p
+  class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+  <label
+    class="ach__label woocommerce-form__label woocommerce-form__label-for-checkbox ">
+    <input
+      class="ach__input woocommerce-form__input woocommerce-form__input-checkbox"
+      name="subscribe" type="checkbox" id="subscribe" value="forever"> <span>
+      <?php _e(get_option('ac_helper_subscribe_label'), 'ac-helper') ?></span>
+  </label>
+</p>
+<?php
     }
 
     /**
@@ -121,9 +127,9 @@ class AC_Helper_Services
     public function custom_woo_registration_handler($customer_id)
     {
         if (isset($_POST['susbcribe'])) {
-           do_action('ach_subscribe',$_POST['email']);       
+            do_action('ach_subscribe', $_POST['email']);
         }
-         do_action('ach_store_email', $_POST['email']);         
+        do_action('ach_store_email', $_POST['email']);
     }
 }
 return new AC_Helper_Services;
